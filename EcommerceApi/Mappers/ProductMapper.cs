@@ -32,9 +32,9 @@ namespace EcommerceApi.Mappers
 			};
 		}
 
-		public static CustomerViewProductDto ToCustomerViewProductDto(this Product product)
+		public static ProductDto ToProductDto(this Product product)
 		{
-			return new CustomerViewProductDto
+			return new ProductDto
 			{
 				Name = product.Name,
 				Description = product.Description,
@@ -43,7 +43,7 @@ namespace EcommerceApi.Mappers
 				Category = product.Category,
 				Rating = product.Rating,
 				StockAmount = product.StockAmount,
-				Comments = product.Comments,
+				Comments = product.Comments.Select(c => c.ToCommentDto()).ToList(),
 				SellerName = product.Seller.Name,
 			};
 		}

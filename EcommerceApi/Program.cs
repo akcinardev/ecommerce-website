@@ -31,6 +31,7 @@ namespace EcommerceApi
 
 			// Dependency Injections
 			builder.Services.AddScoped<IProductRepo, ProductRepo>();
+			builder.Services.AddScoped<ICommentRepo, CommentRepo>();
 
 			var app = builder.Build();
 

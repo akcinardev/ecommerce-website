@@ -26,7 +26,7 @@ namespace EcommerceApi.Controllers
         {
             var products = await _productRepo.GetAllAsync();
 			
-			var productsDto = products.Select(p => p.ToCustomerViewProductDto()).ToList();
+			var productsDto = products.Select(p => p.ToProductDto()).ToList();
 
             return Ok(productsDto);
         }
@@ -41,7 +41,7 @@ namespace EcommerceApi.Controllers
 				return BadRequest($"No product found with specified ID:{id}");
 			}
 
-			var productDto = product.ToCustomerViewProductDto();
+			var productDto = product.ToProductDto();
 
 			return Ok(productDto);
 		}

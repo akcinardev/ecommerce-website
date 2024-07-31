@@ -1,8 +1,8 @@
-﻿using EcommerceApi.Models;
+﻿using EcommerceApi.Dtos.Comment;
 
 namespace EcommerceApi.Dtos.Product
 {
-	public class CustomerViewProductDto
+	public class ProductDto
 	{
 		public string Name { get; set; } = string.Empty;
 		public string? Description { get; set; }
@@ -11,7 +11,7 @@ namespace EcommerceApi.Dtos.Product
 		public string Category { get; set; } = string.Empty;
 		public int? Rating { get; set; }
 		public int StockAmount { get; set; }
-		public List<Comment>? Comments { get; set; } = new List<Comment>();
+		public List<CommentDto>? Comments { get; set; } = new List<CommentDto>();
 		public string SellerName { get; set; } = string.Empty;
 	}
 }
