@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EcommerceApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceApi.Data
 {
@@ -8,5 +9,9 @@ namespace EcommerceApi.Data
         {
             
         }
-    }
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
+	}
 }
