@@ -31,5 +31,21 @@ namespace EcommerceApi.Mappers
 				StockAmount = productDto.StockAmount,
 			};
 		}
+
+		public static CustomerViewProductDto ToCustomerViewProductDto(this Product product)
+		{
+			return new CustomerViewProductDto
+			{
+				Name = product.Name,
+				Description = product.Description,
+				Price = product.Price,
+				Currency = product.Currency,
+				Category = product.Category,
+				Rating = product.Rating,
+				StockAmount = product.StockAmount,
+				Comments = product.Comments,
+				SellerName = product.Seller.Name,
+			};
+		}
 	}
 }
