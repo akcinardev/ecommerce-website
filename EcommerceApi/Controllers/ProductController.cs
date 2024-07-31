@@ -3,6 +3,8 @@ using EcommerceApi.Dtos.Product;
 using EcommerceApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using EcommerceApi.Mappers;
+using EcommerceApi.Repositories;
+using EcommerceApi.Interfaces;
 
 namespace EcommerceApi.Controllers
 {
@@ -11,62 +13,61 @@ namespace EcommerceApi.Controllers
 	public class ProductController : ControllerBase
 	{
         private readonly ApplicationDbContext _context;
+        private readonly IProductRepo _productRepo;
 
-        public ProductController(ApplicationDbContext context)
+		public ProductController(ApplicationDbContext context, IProductRepo productRepo)
         {
             _context = context;
+			_productRepo = productRepo;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var products = _context.Products.ToList();
+            var products = await _productRepo.GetAllAsync();
             return Ok(products);
         }
 
 		[HttpGet("{id}")]
-		public IActionResult GetById(int id)
+		public async Task<IActionResult> GetById(int id)
 		{
-			var product = _context.Products.Find(id);
+			var product = await _productRepo.GetByIdAsync(id);
+
+			if (product == null)
+			{
+				return BadRequest($"No product found with specified ID:{id}");
+			}
+
 			return Ok(product);
 		}
 
 		[HttpPost]
-		public IActionResult Create([FromBody] CreateProductDto productDto)
+		public async Task<IActionResult> Create([FromBody] CreateProductDto productDto)
 		{
-			var product = productDto.FromCreateDtoToProduct();
-
-			_context.Products.Add(product);
-			_context.SaveChanges();
+			var product = await _productRepo.CreateAsync(productDto);
 
 			return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult Update([FromRoute] int id, [FromBody] UpdateProductDto productDto)
+		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateProductDto productDto)
 		{
-			var existingProduct = _context.Products.Find(id);
-			var updatedProduct = productDto.FromUpdateDtoToProduct();
+			var updatedProduct = await _productRepo.UpdateAsync(id, productDto);
 
-			existingProduct.Name = updatedProduct.Name;
-			existingProduct.Description = updatedProduct.Description;
-			existingProduct.Price = updatedProduct.Price;
-			existingProduct.Currency = updatedProduct.Currency;
-			existingProduct.Category = updatedProduct.Category;
-			existingProduct.StockAmount = updatedProduct.StockAmount;
-
-			_context.SaveChanges();
-
-			return Ok(existingProduct);
+			return Ok(updatedProduct);
 		}
 
 		[HttpDelete("{id}")]
-		public IActionResult Delete(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
-			var product = _context.Products.Find(id);
-			_context.Products.Remove(product);
-			_context.SaveChanges();
-			return Ok();
+			var product = await _productRepo.DeleteAsync(id);
+
+			if (product == null)
+			{
+				return BadRequest($"No product found with specified ID:{id}");
+			}
+
+			return NoContent();
 		}
 	}
 }

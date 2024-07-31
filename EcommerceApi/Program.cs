@@ -1,5 +1,7 @@
 
 using EcommerceApi.Data;
+using EcommerceApi.Interfaces;
+using EcommerceApi.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceApi
@@ -21,6 +23,9 @@ namespace EcommerceApi
 			{
 				options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConn1"));
 			});
+
+			// Dependency Injections
+			builder.Services.AddScoped<IProductRepo, ProductRepo>();
 
 			var app = builder.Build();
 
