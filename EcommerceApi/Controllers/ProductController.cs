@@ -1,9 +1,7 @@
 ﻿using EcommerceApi.Data;
 using EcommerceApi.Dtos.Product;
-using EcommerceApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using EcommerceApi.Mappers;
-using EcommerceApi.Repositories;
 using EcommerceApi.Interfaces;
 
 namespace EcommerceApi.Controllers

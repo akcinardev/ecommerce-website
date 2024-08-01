@@ -40,7 +40,7 @@ namespace EcommerceApi.Repositories
 
 		public async Task<Comment?> GetByIdAsync(int id)
 		{
-			var comment = await _context.Comments.SingleOrDefaultAsync();
+			var comment = await _context.Comments.SingleOrDefaultAsync(c => c.Id == id);
 
 			return comment;
 		}
