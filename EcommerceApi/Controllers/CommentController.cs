@@ -51,5 +51,18 @@ namespace EcommerceApi.Controllers
 
 			return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel);
 		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentDto commentDto)
+		{
+			var updatedComment = await _commentRepo.UpdateAsync(id, commentDto);
+
+			if (updatedComment == null)
+			{
+				return BadRequest($"No comment found with specified ID: {id}");
+			}
+
+			return Ok(updatedComment);
+		}
 	}
 }

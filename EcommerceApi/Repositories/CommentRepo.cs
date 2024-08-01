@@ -31,21 +31,36 @@ namespace EcommerceApi.Repositories
 
 		public async Task<List<Comment>> GetAllAsync()
 		{
-			var comments = await _context.Comments.ToListAsync();
+			var comments = await _context.Comments.Include(c => c.Product).ToListAsync();
 			
 			return comments;
 		}
 
 		public async Task<Comment?> GetByIdAsync(int id)
 		{
-			var comment = await _context.Comments.SingleOrDefaultAsync(c => c.Id == id);
+			var comment = await _context.Comments.Include(c => c.Product).SingleOrDefaultAsync(c => c.Id == id);
 
 			return comment;
 		}
 
-		public Task<Comment?> UpdateAsync(int id, UpdateCommentDto commentDto)
+		public async Task<Comment?> UpdateAsync(int id, UpdateCommentDto commentDto)
 		{
-			throw new NotImplementedException();
+			var existingComment = await _context.Comments.FindAsync(id);
+
+			if (existingComment == null)
+			{
+				return null;
+			}
+
+			var updatedComment = commentDto.FromUpdateDtoToComment();
+
+			existingComment.Title = updatedComment.Title;
+			existingComment.Content = updatedComment.Content;
+			existingComment.Rating = updatedComment.Rating;
+
+			await _context.SaveChangesAsync();
+
+			return existingComment;
 		}
 	}
 }

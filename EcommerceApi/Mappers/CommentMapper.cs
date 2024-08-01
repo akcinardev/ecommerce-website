@@ -9,10 +9,11 @@ namespace EcommerceApi.Mappers
 		{
 			return new CommentDto
 			{
+				ProductName = comment.Product.Name,
 				Title = comment.Title,
 				Content = comment.Content,
 				Rating = comment.Rating,
-				CreatedDate = comment.CreatedDate,
+				CreatedDate = comment.CreatedDate
 			};
 		}
 
@@ -24,6 +25,16 @@ namespace EcommerceApi.Mappers
 				Content = commentDto.Content,
 				Rating = commentDto.Rating,
 				ProductId = commentDto.ProductId
+			};
+		}
+
+		public static Comment FromUpdateDtoToComment(this UpdateCommentDto commentDto)
+		{
+			return new Comment
+			{
+				Title = commentDto.Title,
+				Content = commentDto.Content,
+				Rating = commentDto.Rating,
 			};
 		}
 	}
