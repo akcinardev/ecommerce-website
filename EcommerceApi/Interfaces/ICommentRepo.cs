@@ -7,7 +7,7 @@ namespace EcommerceApi.Interfaces
 	{
 		Task<List<Comment>> GetAllAsync();
 		Task<Comment?> GetByIdAsync(int id);
-		Task<Comment> CreateAsync(CreateCommentDto commentDto);
+		Task<Comment> CreateAsync(Comment commentModel);
 		Task<Comment?> UpdateAsync(int id, UpdateCommentDto commentDto);
 		Task<Comment?> DeleteAsync(int id);
 	}

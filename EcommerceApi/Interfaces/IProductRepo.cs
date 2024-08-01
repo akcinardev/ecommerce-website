@@ -7,7 +7,7 @@ namespace EcommerceApi.Interfaces
 	{
 		Task<List<Product>> GetAllAsync();
 		Task<Product?> GetByIdAsync(int id);
-		Task<Product> CreateAsync(CreateProductDto productDto);
+		Task<Product> CreateAsync(Product productModel);
 		Task<Product?> UpdateAsync(int id, UpdateProductDto productDto);
 		Task<Product?> DeleteAsync(int id);
 	}

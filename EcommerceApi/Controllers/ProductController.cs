@@ -47,9 +47,10 @@ namespace EcommerceApi.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create([FromBody] CreateProductDto productDto)
 		{
-			var product = await _productRepo.CreateAsync(productDto);
+			var productModel = productDto.FromCreateDtoToProduct();
+			await _productRepo.CreateAsync(productModel);
 
-			return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+			return CreatedAtAction(nameof(GetById), new { id = productModel.Id }, productModel);
 		}
 
 		[HttpPut("{id}")]

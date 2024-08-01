@@ -2,7 +2,6 @@
 using EcommerceApi.Dtos.Comment;
 using EcommerceApi.Interfaces;
 using EcommerceApi.Mappers;
-using EcommerceApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceApi.Controllers
@@ -46,9 +45,11 @@ namespace EcommerceApi.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create([FromBody] CreateCommentDto commentDto)
 		{
-			var comment = await _commentRepo.CreateAsync(commentDto);
+			var commentModel = commentDto.FromCreateDtoToComment();
 
-			return CreatedAtAction(nameof(GetById), new { id = comment.Id }, comment);
+			await _commentRepo.CreateAsync(commentModel);
+
+			return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel);
 		}
 	}
 }

@@ -16,14 +16,12 @@ namespace EcommerceApi.Repositories
             _context = context;
         }
 
-        public async Task<Comment> CreateAsync(CreateCommentDto commentDto)
+        public async Task<Comment> CreateAsync(Comment commentModel)
 		{
-			var comment = commentDto.FromCreateDtoToComment();
-
-			await _context.Comments.AddAsync(comment);
+			await _context.Comments.AddAsync(commentModel);
 			await _context.SaveChangesAsync();
 
-			return comment;
+			return commentModel;
 		}
 
 		public  Task<Comment?> DeleteAsync(int id)

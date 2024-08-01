@@ -38,14 +38,12 @@ namespace EcommerceApi.Repositories
 			return product;
 		}
 
-		public async Task<Product> CreateAsync(CreateProductDto productDto)
+		public async Task<Product> CreateAsync(Product productModel)
 		{
-			var product = productDto.FromCreateDtoToProduct();
-
-			await _context.Products.AddAsync(product);
+			await _context.Products.AddAsync(productModel);
 			await _context.SaveChangesAsync();
 
-			return product;
+			return productModel;
 		}
 
 		public async Task<Product?> DeleteAsync(int id)
