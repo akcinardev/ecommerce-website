@@ -1,7 +1,9 @@
 
 using EcommerceApi.Data;
 using EcommerceApi.Interfaces;
+using EcommerceApi.Models;
 using EcommerceApi.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceApi
@@ -28,6 +30,27 @@ namespace EcommerceApi
 			{
 				options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConn1"));
 			});
+
+			builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+			{
+				// Password settings.
+				// options.Password.RequireDigit = true;
+				// options.Password.RequireLowercase = true;
+				// options.Password.RequireNonAlphanumeric = true;
+				// options.Password.RequireUppercase = true;
+				// options.Password.RequiredLength = 4;
+				// options.Password.RequiredUniqueChars = 1;
+				// 
+				// // Lockout settings.
+				// options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+				// options.Lockout.MaxFailedAccessAttempts = 5;
+				// options.Lockout.AllowedForNewUsers = true;
+				// 
+				// // User settings.
+				// options.User.AllowedUserNameCharacters =
+				// "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+				// options.User.RequireUniqueEmail = false;
+			}).AddEntityFrameworkStores<ApplicationDbContext>();
 
 			// Dependency Injections
 			builder.Services.AddScoped<IProductRepo, ProductRepo>();
