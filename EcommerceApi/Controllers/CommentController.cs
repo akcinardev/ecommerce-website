@@ -23,6 +23,11 @@ namespace EcommerceApi.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAll()
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var comments = await _commentRepo.GetAllAsync();
 
 			var commentDto = comments.Select(c => c.ToCommentDto()).ToList();
@@ -30,9 +35,14 @@ namespace EcommerceApi.Controllers
 			return Ok(commentDto);
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet("{id:int}")]
 		public async Task<IActionResult> GetById(int id)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var comment = await _commentRepo.GetByIdAsync(id);
 
 			if (comment == null)
@@ -47,6 +57,11 @@ namespace EcommerceApi.Controllers
 		[Authorize]
 		public async Task<IActionResult> Create([FromBody] CreateCommentDto commentDto)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var commentModel = commentDto.FromCreateDtoToComment();
 
 			await _commentRepo.CreateAsync(commentModel);
@@ -54,10 +69,15 @@ namespace EcommerceApi.Controllers
 			return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel);
 		}
 
-		[HttpPut("{id}")]
+		[HttpPut("{id:int}")]
 		[Authorize]
 		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentDto commentDto)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var updatedComment = await _commentRepo.UpdateAsync(id, commentDto);
 
 			if (updatedComment == null)
@@ -68,10 +88,15 @@ namespace EcommerceApi.Controllers
 			return Ok(updatedComment);
 		}
 
-		[HttpDelete("{id}")]
+		[HttpDelete("{id:int}")]
 		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var deletedComment = await _commentRepo.DeleteAsync(id);
 			
 			if (deletedComment == null)

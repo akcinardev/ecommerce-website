@@ -23,16 +23,26 @@ namespace EcommerceApi.Controllers
         [HttpGet]
 		public async Task<IActionResult> GetAll()
         {
-            var products = await _productRepo.GetAllAsync();
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var products = await _productRepo.GetAllAsync();
 			
 			var productsDto = products.Select(p => p.ToProductDto()).ToList();
 
             return Ok(productsDto);
         }
 
-		[HttpGet("{id}")]
+		[HttpGet("{id:int}")]
 		public async Task<IActionResult> GetById(int id)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var product = await _productRepo.GetByIdAsync(id);
 
 			if (product == null)
@@ -49,25 +59,40 @@ namespace EcommerceApi.Controllers
 		[Authorize]
 		public async Task<IActionResult> Create([FromBody] CreateProductDto productDto)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var productModel = productDto.FromCreateDtoToProduct();
 			await _productRepo.CreateAsync(productModel);
 
 			return CreatedAtAction(nameof(GetById), new { id = productModel.Id }, productModel);
 		}
 
-		[HttpPut("{id}")]
+		[HttpPut("{id:int}")]
 		[Authorize]
 		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateProductDto productDto)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var updatedProduct = await _productRepo.UpdateAsync(id, productDto);
 
 			return Ok(updatedProduct);
 		}
 
-		[HttpDelete("{id}")]
+		[HttpDelete("{id:int}")]
 		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var product = await _productRepo.DeleteAsync(id);
 
 			if (product == null)
