@@ -64,5 +64,18 @@ namespace EcommerceApi.Controllers
 
 			return Ok(updatedComment);
 		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var deletedComment = await _commentRepo.DeleteAsync(id);
+			
+			if (deletedComment == null)
+			{
+				return BadRequest($"No comment found with specified ID: {id}");
+			}
+
+			return NoContent();
+		}
 	}
 }
