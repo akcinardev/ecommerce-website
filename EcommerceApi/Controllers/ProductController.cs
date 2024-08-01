@@ -3,6 +3,7 @@ using EcommerceApi.Dtos.Product;
 using Microsoft.AspNetCore.Mvc;
 using EcommerceApi.Mappers;
 using EcommerceApi.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EcommerceApi.Controllers
 {
@@ -20,7 +21,7 @@ namespace EcommerceApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+		public async Task<IActionResult> GetAll()
         {
             var products = await _productRepo.GetAllAsync();
 			
@@ -45,6 +46,7 @@ namespace EcommerceApi.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> Create([FromBody] CreateProductDto productDto)
 		{
 			var productModel = productDto.FromCreateDtoToProduct();
@@ -54,6 +56,7 @@ namespace EcommerceApi.Controllers
 		}
 
 		[HttpPut("{id}")]
+		[Authorize]
 		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateProductDto productDto)
 		{
 			var updatedProduct = await _productRepo.UpdateAsync(id, productDto);
@@ -62,6 +65,7 @@ namespace EcommerceApi.Controllers
 		}
 
 		[HttpDelete("{id}")]
+		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var product = await _productRepo.DeleteAsync(id);

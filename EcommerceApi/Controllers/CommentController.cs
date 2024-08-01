@@ -2,6 +2,7 @@
 using EcommerceApi.Dtos.Comment;
 using EcommerceApi.Interfaces;
 using EcommerceApi.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceApi.Controllers
@@ -43,6 +44,7 @@ namespace EcommerceApi.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> Create([FromBody] CreateCommentDto commentDto)
 		{
 			var commentModel = commentDto.FromCreateDtoToComment();
@@ -53,6 +55,7 @@ namespace EcommerceApi.Controllers
 		}
 
 		[HttpPut("{id}")]
+		[Authorize]
 		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentDto commentDto)
 		{
 			var updatedComment = await _commentRepo.UpdateAsync(id, commentDto);
@@ -66,6 +69,7 @@ namespace EcommerceApi.Controllers
 		}
 
 		[HttpDelete("{id}")]
+		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var deletedComment = await _commentRepo.DeleteAsync(id);
