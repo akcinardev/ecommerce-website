@@ -10,6 +10,5 @@ namespace EcommerceApi.Dtos.Product
 		public string Currency { get; set; } = string.Empty;
 		public string Category { get; set; } = string.Empty;
 		public int StockAmount { get; set; }
-		public int SellerId { get; set; }
 	}
 }

@@ -19,7 +19,6 @@ namespace EcommerceApi.Repositories
 		public async Task<List<Product>> GetAllAsync()
 		{
 			var products = await _context.Products
-				.Include(p => p.Seller)
 				.Include(p => p.Comments)
 				.ToListAsync();
 			return products;
@@ -28,7 +27,6 @@ namespace EcommerceApi.Repositories
 		public async Task<Product?> GetByIdAsync(int id)
 		{
 			var product = await _context.Products
-				.Include(p => p.Seller)
 				.Include(p => p.Comments)
 				.SingleOrDefaultAsync(p => p.Id == id);
 			if (product == null)

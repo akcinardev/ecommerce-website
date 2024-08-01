@@ -12,6 +12,5 @@ namespace EcommerceApi.Dtos.Product
 		public int? Rating { get; set; }
 		public int StockAmount { get; set; }
 		public List<CommentDto>? Comments { get; set; } = new List<CommentDto>();
-		public string SellerName { get; set; } = string.Empty;
 	}
 }

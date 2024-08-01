@@ -15,7 +15,5 @@ namespace EcommerceApi.Models
         public int StockAmount { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public List<Comment>? Comments { get; set; } = new List<Comment>();
-        public int SellerId { get; set; }
-		public Seller Seller { get; set; }
     }
 }

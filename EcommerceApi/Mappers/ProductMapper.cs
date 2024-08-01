@@ -15,7 +15,6 @@ namespace EcommerceApi.Mappers
 				Currency = productDto.Currency,
 				Category = productDto.Category,
 				StockAmount = productDto.StockAmount,
-				SellerId = productDto.SellerId,
 			};
 		}
 
@@ -44,7 +43,6 @@ namespace EcommerceApi.Mappers
 				Rating = product.Rating,
 				StockAmount = product.StockAmount,
 				Comments = product.Comments.Select(c => c.ToCommentDto()).ToList(),
-				SellerName = product.Seller.Name,
 			};
 		}
 	}
