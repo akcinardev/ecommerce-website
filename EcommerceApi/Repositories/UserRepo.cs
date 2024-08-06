@@ -47,7 +47,7 @@ namespace EcommerceApi.Repositories
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (user == null)
+            if (user == null || user.NormalizedUserName == "OWNER")
             {
                 return null;
             }
