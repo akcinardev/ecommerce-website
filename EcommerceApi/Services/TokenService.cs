@@ -1,5 +1,6 @@
 ﻿using EcommerceApi.Interfaces;
 using EcommerceApi.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,14 +12,16 @@ namespace EcommerceApi.Services
 	{
 		private readonly IConfiguration _config;
 		private readonly SymmetricSecurityKey _key;
+		private readonly UserManager<AppUser> _userManager;
 
-        public TokenService(IConfiguration config)
+        public TokenService(IConfiguration config, UserManager<AppUser> userManager)
         {
             _config = config;
+			_userManager = userManager;
 			_key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]!));
         }
 
-        public string CreateToken(AppUser appUser)
+        public async Task<string> CreateToken(AppUser appUser)
 		{
 			var claims = new List<Claim>
 			{
@@ -26,7 +29,14 @@ namespace EcommerceApi.Services
 				new Claim(JwtRegisteredClaimNames.GivenName, appUser.UserName!)
 			};
 
-			var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+            var userRoles = await _userManager.GetRolesAsync(appUser);
+            foreach (var role in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+
+            }
+
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{

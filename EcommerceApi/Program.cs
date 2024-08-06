@@ -99,6 +99,12 @@ namespace EcommerceApi
 			builder.Services.AddScoped<ICommentRepo, CommentRepo>();
 			builder.Services.AddScoped<ITokenService, TokenService>();
 
+			// Authorization
+			builder.Services.AddAuthorization(options =>
+			{
+				options.AddPolicy("RequireOwnerRole", policy => policy.RequireRole("Owner"));
+			});
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.

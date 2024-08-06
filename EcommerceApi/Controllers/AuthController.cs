@@ -81,7 +81,7 @@ namespace EcommerceApi.Controllers
 			{
 				Username = user.UserName,
 				Email = user.Email,
-				Token = _tokenService.CreateToken(user)
+				Token = await _tokenService.CreateToken(user)
 			});
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using EcommerceApi.Data;
 using EcommerceApi.Dtos.Account;
 using EcommerceApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ namespace EcommerceApi.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [Authorize(Policy = "RequireOwnerRole")]
     public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -32,8 +34,15 @@ namespace EcommerceApi.Controllers
         public async Task<IActionResult> GetById(string id)
         {
             var user = await _context.Users.FindAsync(id);
+            var userRoles = await _userManager.GetRolesAsync(user);
 
-            return Ok(user);
+            var userDto = new
+            {
+                User = user,
+                Roles = userRoles
+            };
+
+            return Ok(userDto);
         }
 
         [HttpPost]
