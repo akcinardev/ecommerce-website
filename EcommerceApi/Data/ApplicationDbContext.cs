@@ -7,9 +7,10 @@ namespace EcommerceApi.Data
 {
 	public class ApplicationDbContext : IdentityDbContext<AppUser>
 	{
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+		private readonly IConfiguration _config;
+        public ApplicationDbContext(DbContextOptions options, IConfiguration config) : base(options)
         {
-            
+            _config = config;
         }
 
         public DbSet<Product> Products { get; set; }
@@ -32,7 +33,9 @@ namespace EcommerceApi.Data
 				NormalizedName = "OWNER"
 			};
 
-			var ownerInitialPassword = "Owner!23";
+			// var ownerInitialPassword = "Owner!23";
+			var ownerInitialPassword = _config["SeedData:OwnerPassword"];
+            var ownerPasswordHash = new PasswordHasher<AppUser>().HashPassword(null, ownerInitialPassword);
 
 			var ownerUser = new AppUser()
 			{
@@ -41,7 +44,7 @@ namespace EcommerceApi.Data
 				NormalizedUserName = ownerRole.NormalizedName,
 				Email = "owner@akc.com",
 				NormalizedEmail = "OWNER@AKC.COM",
-				PasswordHash = new PasswordHasher<AppUser>().HashPassword(null, ownerInitialPassword)
+				PasswordHash = ownerPasswordHash,
 			};
 
 			var ownerUserRole = new IdentityUserRole<string>()
