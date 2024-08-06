@@ -10,7 +10,7 @@ namespace EcommerceApi.Controllers
 {
     [Route("api/users")]
     [ApiController]
-    [Authorize(Policy = "RequireOwnerRole")]
+    [Authorize(Roles = "Owner")]
     public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
