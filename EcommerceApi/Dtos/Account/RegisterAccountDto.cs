@@ -9,6 +9,7 @@ namespace EcommerceApi.Dtos.Account
 		public string? EmailAddress { get; set; }
 
 		[Required]
+        [MinLength(4, ErrorMessage = "Username must be at least 4 characters")]
         public string? Username { get; set; }
 
         [Required]

@@ -85,6 +85,24 @@ namespace EcommerceApi.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "d179b4a4-a9cf-42e9-b6d0-4bfe95825f53",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7d415b49-fd2c-4b1d-b473-6f584bfa97cb",
+                            Email = "owner@akc.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "OWNER@AKC.COM",
+                            NormalizedUserName = "OWNER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHSf4+K5niUX/IgJOdQclNm58I/gtvRzHAZ4HfB+4F91MlU89rgJKzrHZerI6s4p2g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1129ad4e-a5c5-4880-b6d9-dac499b2b829",
+                            TwoFactorEnabled = false,
+                            UserName = "Owner"
+                        });
                 });
 
             modelBuilder.Entity("EcommerceApi.Models.Comment", b =>
@@ -184,6 +202,14 @@ namespace EcommerceApi.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "d115ce88-ad66-4019-95d5-3a2bb7c81343",
+                            Name = "Owner",
+                            NormalizedName = "OWNER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -271,6 +297,13 @@ namespace EcommerceApi.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "d179b4a4-a9cf-42e9-b6d0-4bfe95825f53",
+                            RoleId = "d115ce88-ad66-4019-95d5-3a2bb7c81343"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
