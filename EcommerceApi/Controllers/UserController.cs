@@ -1,5 +1,6 @@
 ﻿using EcommerceApi.Data;
 using EcommerceApi.Dtos.Account;
+using EcommerceApi.Interfaces;
 using EcommerceApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,34 +16,33 @@ namespace EcommerceApi.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IUserRepo _userRepo;
 
-        public UserController(ApplicationDbContext context, UserManager<AppUser> userManager)
+        public UserController(ApplicationDbContext context, UserManager<AppUser> userManager, IUserRepo userRepo)
         {
             _context = context;
             _userManager = userManager;
+            _userRepo = userRepo;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var users = await _context.Users.ToListAsync();
-
+            var users = await _userRepo.GetAllAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var user = await _context.Users.FindAsync(id);
-            var userRoles = await _userManager.GetRolesAsync(user);
+            var user = await _userRepo.GetByIdAsync(id);
 
-            var userDto = new
+            if (user == null)
             {
-                User = user,
-                Roles = userRoles
-            };
+                return BadRequest("No user found with specified ID");
+            }
 
-            return Ok(userDto);
+            return Ok(user);
         }
 
         [HttpPost]
@@ -81,17 +81,14 @@ namespace EcommerceApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var existingUser = await _context.Users.FindAsync(id);
+            var existingUser = await _userRepo.DeleteAsync(id);
 
-            try
+            if (existingUser == null)
             {
-                await _userManager.DeleteAsync(existingUser);
-                return Ok(existingUser);
+                return BadRequest("No user found with specified ID");
             }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            return NoContent();
         }
     }
 }

@@ -98,8 +98,9 @@ namespace EcommerceApi
 			builder.Services.AddScoped<IProductRepo, ProductRepo>();
 			builder.Services.AddScoped<ICommentRepo, CommentRepo>();
 			builder.Services.AddScoped<ITokenService, TokenService>();
+			builder.Services.AddScoped<IUserRepo, UserRepo>();
 
-			var app = builder.Build();
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
