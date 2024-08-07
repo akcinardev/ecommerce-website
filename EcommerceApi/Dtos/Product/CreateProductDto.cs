@@ -10,7 +10,7 @@ namespace EcommerceApi.Dtos.Product
 		public string Name { get; set; } = string.Empty;
 
 		[Required(ErrorMessage = "Description is required.")]
-		[MinLength(50, ErrorMessage = "Description must be at least 50 characters.")]
+		[MinLength(20, ErrorMessage = "Description must be at least 20 characters.")]
 		[MaxLength(500, ErrorMessage = "Description can not be over 500 characters.")]
 		public string? Description { get; set; }
 
