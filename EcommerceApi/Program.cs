@@ -100,6 +100,18 @@ namespace EcommerceApi
 			builder.Services.AddScoped<ITokenService, TokenService>();
 			builder.Services.AddScoped<IUserRepo, UserRepo>();
 
+            // Add CORS services
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://127.0.0.1:8080") // Allow your frontend origin
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
+
             var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -109,7 +121,9 @@ namespace EcommerceApi
 				app.UseSwaggerUI();
 			}
 
-			app.UseHttpsRedirection();
+            app.UseCors("AllowSpecificOrigin");
+
+            app.UseHttpsRedirection();
 
 			app.UseAuthentication();
 
